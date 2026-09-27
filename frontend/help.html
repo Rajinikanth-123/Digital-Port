@@ -1,0 +1,382 @@
+<div class="content-header">
+    <div>
+        <h1 class="page-title"><i class="fas fa-headset me-2 text-primary"></i>Help Center & Support</h1>
+        <p class="text-muted mb-0">Browse knowledge base articles, submit support tickets, and provide system feedback.</p>
+    </div>
+</div>
+
+<!-- Navigation Tabs -->
+<ul class="nav nav-tabs mb-4" id="helpTabs" role="tablist">
+    <li class="nav-item">
+        <button class="nav-link active" id="tab-faq-btn" data-bs-toggle="tab" data-bs-target="#tab-faq" type="button"><i class="fas fa-book-open me-2"></i>Help Center & FAQs</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="tab-my-tickets-btn" data-bs-toggle="tab" data-bs-target="#tab-my-tickets" type="button"><i class="fas fa-ticket-alt me-2"></i>My Tickets</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="tab-create-ticket-btn" data-bs-toggle="tab" data-bs-target="#tab-create-ticket" type="button"><i class="fas fa-plus-circle me-2"></i>Create Ticket</button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="tab-feedback-btn" data-bs-toggle="tab" data-bs-target="#tab-feedback" type="button"><i class="fas fa-star me-2"></i>Submit Feedback</button>
+    </li>
+    <li class="nav-item" id="nav-admin-queue-item" style="display: none;">
+        <button class="nav-link" id="tab-admin-queue-btn" data-bs-toggle="tab" data-bs-target="#tab-admin-queue" type="button"><i class="fas fa-user-shield me-2"></i>Support Staff Queue</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="helpTabsContent">
+
+    <!-- TAB 1: HELP CENTER & FAQS -->
+    <div class="tab-pane fade show active" id="tab-faq" role="tabpanel">
+        <!-- Hero Search Banner -->
+        <div class="card bg-primary text-white border-0 shadow-sm mb-4">
+            <div class="card-body p-4 text-center">
+                <h3 class="fw-bold mb-2"><i class="fas fa-search me-2"></i>How can we help you today?</h3>
+                <p class="opacity-75 mb-3">Search knowledge base articles or select a topic category below.</p>
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="input-group input-group-lg">
+                            <input type="text" id="faq-search-input" class="form-control" placeholder="Search keywords (e.g. shipment status, customs, invoice, profile)...">
+                            <button class="btn btn-dark" type="button" id="faq-search-btn"><i class="fas fa-search me-1"></i> Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm category-card text-center p-3" style="cursor: pointer;" onclick="window.filterFaqCategory('SHIPMENTS')">
+                    <div class="mb-2 text-primary fs-2"><i class="fas fa-shipping-fast"></i></div>
+                    <h5 class="fw-bold mb-1">Shipments</h5>
+                    <p class="text-muted small mb-0">Tracking, statuses, and manifests</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm category-card text-center p-3" style="cursor: pointer;" onclick="window.filterFaqCategory('CUSTOMS')">
+                    <div class="mb-2 text-warning fs-2"><i class="fas fa-file-contract"></i></div>
+                    <h5 class="fw-bold mb-1">Customs</h5>
+                    <p class="text-muted small mb-0">Clearance, declarations, and holds</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm category-card text-center p-3" style="cursor: pointer;" onclick="window.filterFaqCategory('BILLING')">
+                    <div class="mb-2 text-success fs-2"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <h5 class="fw-bold mb-1">Invoices</h5>
+                    <p class="text-muted small mb-0">Billing, taxes, and payments</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm category-card text-center p-3" style="cursor: pointer;" onclick="window.filterFaqCategory('MY_ACCOUNT')">
+                    <div class="mb-2 text-info fs-2"><i class="fas fa-user-cog"></i></div>
+                    <h5 class="fw-bold mb-1">My Account</h5>
+                    <p class="text-muted small mb-0">Profile, preferences, and security</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Articles Accordion Container -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent d-flex justify-content-between align-items-center fw-bold py-3">
+                <span><i class="fas fa-newspaper text-primary me-2"></i>Knowledge Base Articles</span>
+                <span class="badge bg-secondary" id="faq-category-badge">ALL TOPICS</span>
+            </div>
+            <div class="card-body p-0">
+                <div id="faq-accordion" class="accordion accordion-flush">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: MY TICKETS -->
+    <div class="tab-pane fade" id="tab-my-tickets" role="tabpanel">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent py-3 d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0 fw-bold"><i class="fas fa-ticket-alt text-primary me-2"></i>My Support Tickets</h5>
+                <button class="btn btn-sm btn-outline-primary" onclick="window.refreshMyTickets()"><i class="fas fa-sync-alt me-1"></i> Refresh</button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="my-tickets-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Subject</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Updated</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-tickets-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: CREATE TICKET -->
+    <div class="tab-pane fade" id="tab-create-ticket" role="tabpanel">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent py-3">
+                <h5 class="card-title mb-0 fw-bold"><i class="fas fa-edit text-primary me-2"></i>Submit a Support Request</h5>
+            </div>
+            <div class="card-body p-4">
+                <form id="create-ticket-form">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold">Subject / Title <span class="text-danger">*</span></label>
+                            <input type="text" id="ticket-subject" class="form-control" placeholder="Brief summary of your issue or question" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">Category</label>
+                            <select id="ticket-category" class="form-select">
+                                <option value="GENERAL">General</option>
+                                <option value="SHIPMENT">Shipment</option>
+                                <option value="VESSEL">Vessel</option>
+                                <option value="CUSTOMS">Customs</option>
+                                <option value="BILLING">Billing / Invoice</option>
+                                <option value="TECHNICAL">Technical Issue</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">Priority</label>
+                            <select id="ticket-priority" class="form-select">
+                                <option value="LOW">Low</option>
+                                <option value="MEDIUM" selected>Medium</option>
+                                <option value="HIGH">High</option>
+                                <option value="URGENT">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Description & Details <span class="text-danger">*</span></label>
+                        <textarea id="ticket-description" class="form-control" rows="5" placeholder="Provide full details, error messages, or shipment tracking numbers..." required></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold"><i class="fas fa-paperclip me-1"></i> Attachment (Optional)</label>
+                        <input type="file" id="ticket-attachment" class="form-control">
+                        <div class="form-text">Allowed formats: PDF, PNG, JPG, DOCX, CSV. Max size: 10MB.</div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="reset" class="btn btn-light"><i class="fas fa-undo me-1"></i> Reset</button>
+                        <button type="submit" class="btn btn-primary" id="submit-ticket-btn"><i class="fas fa-paper-plane me-1"></i> Submit Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: SUBMIT FEEDBACK -->
+    <div class="tab-pane fade" id="tab-feedback" role="tabpanel">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent py-3">
+                <h5 class="card-title mb-0 fw-bold"><i class="fas fa-smile text-warning me-2"></i>User Feedback & Satisfaction Rating</h5>
+            </div>
+            <div class="card-body p-4">
+                <form id="submit-feedback-form">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Satisfaction Rating (1 to 5 Stars)</label>
+                            <div class="rating-stars d-flex gap-2 align-items-center fs-3 text-warning my-1" id="star-rating-selector">
+                                <i class="far fa-star rating-star" data-rating="1" style="cursor: pointer;"></i>
+                                <i class="far fa-star rating-star" data-rating="2" style="cursor: pointer;"></i>
+                                <i class="far fa-star rating-star" data-rating="3" style="cursor: pointer;"></i>
+                                <i class="far fa-star rating-star" data-rating="4" style="cursor: pointer;"></i>
+                                <i class="far fa-star rating-star" data-rating="5" style="cursor: pointer;"></i>
+                                <span class="ms-2 fs-6 text-muted fw-normal" id="rating-text">Select rating</span>
+                            </div>
+                            <input type="hidden" id="feedback-rating-val" value="5">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Category</label>
+                            <select id="feedback-category" class="form-select">
+                                <option value="GENERAL">General System Usage</option>
+                                <option value="SUPPORT">Support Service</option>
+                                <option value="PERFORMANCE">Speed & Performance</option>
+                                <option value="FEATURE">Feature Request</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Ticket Reference (Optional)</label>
+                            <input type="number" id="feedback-ticket-id" class="form-control" placeholder="Linked Ticket ID (optional)">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Comments & Feedback <span class="text-danger">*</span></label>
+                        <textarea id="feedback-text" class="form-control" rows="4" placeholder="Tell us how we can improve your experience..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning text-dark fw-bold" id="submit-feedback-btn"><i class="fas fa-check-circle me-1"></i> Submit Feedback</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 5: ADMIN / SUPPORT QUEUE -->
+    <div class="tab-pane fade" id="tab-admin-queue" role="tabpanel">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-transparent py-3">
+                <h5 class="card-title mb-0 fw-bold"><i class="fas fa-filter text-primary me-2"></i>Filter Support Queue</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold">Search</label>
+                        <input type="text" id="admin-filter-search" class="form-control form-control-sm" placeholder="Ref or Subject...">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold">Status</label>
+                        <select id="admin-filter-status" class="form-select form-select-sm">
+                            <option value="ALL">All Statuses</option>
+                            <option value="OPEN">Open</option>
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="WAITING_FOR_USER">Waiting for User</option>
+                            <option value="RESOLVED">Resolved</option>
+                            <option value="CLOSED">Closed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small fw-bold">Priority</label>
+                        <select id="admin-filter-priority" class="form-select form-select-sm">
+                            <option value="ALL">All Priorities</option>
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="HIGH">High</option>
+                            <option value="URGENT">Urgent</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold">Category</label>
+                        <select id="admin-filter-category" class="form-select form-select-sm">
+                            <option value="ALL">All Categories</option>
+                            <option value="GENERAL">General</option>
+                            <option value="SHIPMENT">Shipment</option>
+                            <option value="VESSEL">Vessel</option>
+                            <option value="CUSTOMS">Customs</option>
+                            <option value="BILLING">Billing</option>
+                            <option value="TECHNICAL">Technical</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="btn btn-sm btn-primary w-100" onclick="window.applyAdminQueueFilters()"><i class="fas fa-search me-1"></i> Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent py-3 fw-bold">
+                <i class="fas fa-list text-primary me-2"></i>Incoming Support Tickets Queue
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Reference</th>
+                                <th>Creator</th>
+                                <th>Subject</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned Staff</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-queue-tbody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TICKET DETAIL CONVERSATION MODAL -->
+<div class="modal fade" id="ticketDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-light">
+                <div>
+                    <h5 class="modal-title fw-bold" id="modal-ticket-ref">Ticket Reference</h5>
+                    <span class="badge bg-secondary me-2" id="modal-ticket-status">Status</span>
+                    <span class="badge bg-info" id="modal-ticket-priority">Priority</span>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <h6 class="fw-bold" id="modal-ticket-subject">Subject</h6>
+                    <p class="text-muted small" id="modal-ticket-meta">Meta details</p>
+                </div>
+
+                <!-- Admin Status & Assign Controls (visible to staff) -->
+                <div class="card bg-light border-0 p-3 mb-4" id="modal-admin-controls" style="display: none;">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-bold mb-1">Update Status</label>
+                            <div class="input-group input-group-sm">
+                                <select id="modal-change-status-select" class="form-select">
+                                    <option value="OPEN">OPEN</option>
+                                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                                    <option value="WAITING_FOR_USER">WAITING_FOR_USER</option>
+                                    <option value="RESOLVED">RESOLVED</option>
+                                    <option value="CLOSED">CLOSED</option>
+                                </select>
+                                <button class="btn btn-outline-primary" id="btn-update-status-action">Save</button>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <label class="form-label small fw-bold mb-1">Assign Staff Agent (User ID)</label>
+                            <div class="input-group input-group-sm">
+                                <input type="number" id="modal-assign-agent-id" class="form-control" placeholder="User ID to assign...">
+                                <button class="btn btn-outline-success" id="btn-assign-agent-action">Assign</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <h6 class="fw-bold mb-3"><i class="fas fa-comments me-2"></i>Conversation Thread</h6>
+
+                <!-- Message Thread Container -->
+                <div id="modal-message-thread" class="d-flex flex-column gap-3 mb-4">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Reply Form -->
+                <form id="modal-reply-form" class="card border-0 bg-light p-3">
+                    <div class="mb-2">
+                        <label class="form-label fw-bold small">Add Reply</label>
+                        <textarea id="modal-reply-body" class="form-control" rows="3" placeholder="Write message..." required></textarea>
+                    </div>
+                    <div class="row align-items-center g-2">
+                        <div class="col-md-6">
+                            <input type="file" id="modal-reply-file" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-3" id="modal-internal-note-check-wrap" style="display: none;">
+                            <div class="form-check form-switch mt-1">
+                                <input class="form-check-input" type="checkbox" id="modal-is-internal-note">
+                                <label class="form-check-label small fw-bold text-danger" for="modal-is-internal-note">Internal Note</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-end ms-auto">
+                            <button type="submit" class="btn btn-sm btn-primary w-100" id="btn-send-reply"><i class="fas fa-paper-plane me-1"></i> Send Reply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

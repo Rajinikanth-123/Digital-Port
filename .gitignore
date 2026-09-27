@@ -1,0 +1,18 @@
+# Java and Maven
+backend/target/
+*.class
+*.log
+
+# IDE files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.iml
+
+# Local environment and secrets
+.env
+*.env
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sign in / Register · HarborOS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .auth-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+    .auth-tab { padding: 10px 16px; border: 0; background: transparent; color: var(--muted); font-weight: 700; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; }
+    .auth-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+  </style>
+</head>
+<body>
+  <main class="landing">
+    <div class="landing-card">
+      <div class="brand"><span>⚓</span> Harbor<span>OS</span></div>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login">Sign in</button>
+        <button class="auth-tab" id="tab-register">Create Account</button>
+      </div>
+
+      <div class="error-banner" id="auth-error" hidden></div>
+
+      <!-- Sign In Form -->
+      <form id="loginForm">
+        <h1 style="font-size:22px; margin-bottom:4px;">Welcome back</h1>
+        <p style="font-size:12px; margin-bottom:16px;">Sign in to access your port workspace.</p>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="login-email" required placeholder="you@company.com">
+        </label>
+        <label class="field" style="margin-top:12px;">
+          <span>Password</span>
+          <input type="password" id="login-password" required minlength="8" placeholder="Minimum 8 characters">
+        </label>
+        <button class="button primary" type="submit" id="btn-login" style="margin-top:16px; width:100%;">Sign in →</button>
+      </form>
+
+      <!-- Registration Form -->
+      <form id="registerForm" hidden>
+        <h1 style="font-size:22px; margin-bottom:4px;">Create Account</h1>
+        <p style="font-size:12px; margin-bottom:16px;">Register for HarborOS operational access.</p>
+        <label class="field">
+          <span>Full Name *</span>
+          <input type="text" id="reg-name" required placeholder="e.g. Alex Rivera">
+        </label>
+        <label class="field" style="margin-top:12px;">
+          <span>Work Email *</span>
+          <input type="email" id="reg-email" required placeholder="you@company.com">
+        </label>
+        <label class="field" style="margin-top:12px;">
+          <span>Password *</span>
+          <input type="password" id="reg-password" required minlength="8" placeholder="Minimum 8 characters">
+        </label>
+        <button class="button primary" type="submit" id="btn-register" style="margin-top:16px; width:100%;">Register Account →</button>
+      </form>
+
+      <p style="font-size:11px; text-align:center; color:var(--muted); margin-top:12px;">
+        Seed Demo Accounts: <code>admin@demo.invalid</code> / <code>manager@demo.invalid</code> (Password: <code>password</code>)
+      </p>
+    </div>
+  </main>
+  <script type="module" src="js/login.js"></script>
+</body>
+</html>
